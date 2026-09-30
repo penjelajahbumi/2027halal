@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rencana Nikah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#FBF5F2; --surface:#FFFFFF; --surface-2:#F6ECE8; --surface-3:#F1E4DF;
+  --ink:#2C2030; --ink-soft:#6C5C68; --ink-faint:#A08F9A;
+  --line:#ECDDD7; --line-strong:#E0CCC4;
+  --rose:#B4506E; --rose-deep:#8C3654; --rose-soft:#F6E2E8; --rose-tint:#FBEFF2;
+  --gold:#B4863A; --gold-soft:#F3E7CF;
+  --sage:#5F8E6B; --sage-soft:#E4EFE4;
+  --danger:#BE4A3B; --danger-soft:#F8E3DE;
+  --hero-a:#5E2A47; --hero-b:#A0466A; --hero-c:#C97E7A;
+  --shadow:0 1px 2px rgba(60,20,45,.05), 0 8px 24px -12px rgba(60,20,45,.14);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#191218; --surface:#241B24; --surface-2:#2E2330; --surface-3:#38293A;
+    --ink:#F4E9EE; --ink-soft:#C6B4C0; --ink-faint:#8E7C89;
+    --line:#382B3B; --line-strong:#463648;
+    --rose:#E390A9; --rose-deep:#EFA9BD; --rose-soft:#3A2331; --rose-tint:#2B1D28;
+    --gold:#E0B463; --gold-soft:#372B1B;
+    --sage:#8DBE95; --sage-soft:#22301F;
+    --danger:#E88B7B; --danger-soft:#3A231D;
+    --hero-a:#4A2038; --hero-b:#7E3355; --hero-c:#A85E63;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 30px -14px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#191218; --surface:#241B24; --surface-2:#2E2330; --surface-3:#38293A;
+  --ink:#F4E9EE; --ink-soft:#C6B4C0; --ink-faint:#8E7C89;
+  --line:#382B3B; --line-strong:#463648;
+  --rose:#E390A9; --rose-deep:#EFA9BD; --rose-soft:#3A2331; --rose-tint:#2B1D28;
+  --gold:#E0B463; --gold-soft:#372B1B;
+  --sage:#8DBE95; --sage-soft:#22301F;
+  --danger:#E88B7B; --danger-soft:#3A231D;
+  --hero-a:#4A2038; --hero-b:#7E3355; --hero-c:#A85E63;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 30px -14px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px);
+}
+#app{display:flex;flex-direction:column;height:100%;max-width:560px;margin:0 auto;position:relative}
+main{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 18px 120px;-webkit-overflow-scrolling:touch}
+h1,h2,h3{margin:0;font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:15px}
+::placeholder{color:var(--ink-faint)}
+
+/* ---- top bar ---- */
+.topbar{padding:22px 18px 8px;display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.topbar .kicker{font-size:12.5px;color:var(--rose);font-weight:600;letter-spacing:.02em}
+.topbar h2{font-size:25px;margin-top:2px}
+.iconbtn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);flex:none}
+.iconbtn:active{transform:scale(.94)}
+
+/* ---- hero countdown ---- */
+.hero{
+  position:relative;border-radius:26px;padding:26px 24px 24px;color:#fff;overflow:hidden;
+  background:linear-gradient(150deg,var(--hero-a),var(--hero-b) 58%,var(--hero-c));
+  box-shadow:var(--shadow);margin-top:6px;
+}
+.hero .deco{position:absolute;inset:0;opacity:.5;pointer-events:none}
+.hero .names{font-family:'Fraunces',serif;font-weight:500;font-size:23px;line-height:1.25;position:relative}
+.hero .amp{font-style:italic;font-weight:400;opacity:.85;margin:0 6px}
+.hero .count-wrap{display:flex;align-items:flex-end;gap:12px;margin:14px 0 2px;position:relative}
+.hero .big{font-family:'Fraunces',serif;font-weight:600;font-size:76px;line-height:.86;letter-spacing:-.02em}
+.hero .big.small{font-size:34px;line-height:1.1;max-width:100%}
+.hero .unit{font-size:15px;font-weight:600;opacity:.9;padding-bottom:12px}
+.hero .toward{font-size:13.5px;opacity:.9;position:relative;font-weight:500}
+.hero .dates{display:flex;gap:20px;margin-top:18px;position:relative;flex-wrap:wrap}
+.hero .d{font-size:12.5px;opacity:.92}
+.hero .d b{display:block;font-size:14px;font-weight:600;margin-top:1px;opacity:1}
+.hero .d .lbl{text-transform:none;letter-spacing:0;opacity:.8}
+
+/* ---- generic card ---- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.section-label{font-size:12.5px;font-weight:600;color:var(--ink-faint);margin:26px 4px 10px;letter-spacing:.01em}
+
+/* summary tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px 12px;text-align:left}
+.tile:active{background:var(--surface-2)}
+.tile .tn{font-family:'Fraunces',serif;font-size:24px;font-weight:600;line-height:1}
+.tile .tl{font-size:11.5px;color:var(--ink-soft);margin-top:5px;font-weight:500}
+.tile .tsub{font-size:10.5px;color:var(--ink-faint);margin-top:1px}
+.tile .ring{--p:0;width:26px;height:26px;border-radius:50%;background:conic-gradient(var(--rose) calc(var(--p)*1%),var(--surface-3) 0);display:grid;place-items:center;float:right}
+.tile .ring::after{content:"";width:18px;height:18px;border-radius:50%;background:var(--surface)}
+
+/* upcoming list on home */
+.mini-task{display:flex;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line)}
+.mini-task:last-child{border-bottom:none}
+.mini-task .mt-body{flex:1;min-width:0}
+.mini-task .mt-title{font-size:14px;font-weight:500}
+.mini-task .mt-meta{font-size:11.5px;color:var(--ink-faint);margin-top:2px}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+
+/* ---- progress bar ---- */
+.pbar{height:8px;border-radius:99px;background:var(--surface-3);overflow:hidden}
+.pbar>span{display:block;height:100%;border-radius:99px;background:var(--rose);transition:width .4s ease}
+.pbar.gold>span{background:var(--gold)}
+.pbar.over>span{background:var(--danger)}
+
+/* ---- checklist ---- */
+.progress-head{padding:16px 18px;display:flex;align-items:center;gap:14px;margin-top:14px}
+.progress-head .pnum{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1}
+.progress-head .pcap{flex:1}
+.progress-head .pcap .pt{font-size:13px;color:var(--ink-soft);font-weight:500;margin-bottom:7px}
+.cat-group{margin-top:20px}
+.cat-title{display:flex;align-items:center;gap:9px;margin:0 4px 9px;font-size:14px;font-weight:700;color:var(--ink)}
+.cat-title .cc{width:9px;height:9px;border-radius:3px;flex:none}
+.cat-title .ccount{font-size:11.5px;color:var(--ink-faint);font-weight:600;margin-left:auto}
+.task{display:flex;align-items:flex-start;gap:13px;padding:13px 15px;border-bottom:1px solid var(--line)}
+.task:last-child{border-bottom:none}
+.check{width:23px;height:23px;border-radius:8px;border:2px solid var(--line-strong);flex:none;margin-top:1px;display:grid;place-items:center;color:transparent;transition:.15s}
+.check.on{background:var(--sage);border-color:var(--sage);color:#fff}
+.task .tk-body{flex:1;min-width:0}
+.task .tk-title{font-size:14.5px;line-height:1.35}
+.task.done .tk-title{color:var(--ink-faint);text-decoration:line-through}
+.task .tk-meta{font-size:11.5px;color:var(--ink-faint);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:600;background:var(--surface-2);color:var(--ink-soft)}
+.badge.due{background:var(--gold-soft);color:var(--gold)}
+.badge.late{background:var(--danger-soft);color:var(--danger)}
+.tk-x{color:var(--ink-faint);padding:4px;margin:-4px -4px -4px 0;flex:none}
+
+/* ---- budget ---- */
+.bud-hero{padding:20px;margin-top:14px;text-align:center}
+.bud-hero .bl{font-size:12.5px;color:var(--ink-soft);font-weight:600}
+.bud-hero .bv{font-family:'Fraunces',serif;font-size:34px;font-weight:600;margin:3px 0 2px}
+.bud-hero .bv.neg{color:var(--danger)}
+.bud-hero .brow{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
+.bud-hero .bc{flex:1;text-align:center}
+.bud-hero .bc .n{font-size:16px;font-weight:700;font-family:'Fraunces',serif}
+.bud-hero .bc .l{font-size:11px;color:var(--ink-faint);margin-top:2px;font-weight:500}
+.bud-hero .bc.spent .n{color:var(--rose)}
+.cat-row{padding:14px 16px;border-bottom:1px solid var(--line)}
+.cat-row:last-child{border-bottom:none}
+.cat-row .ch{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
+.cat-row .cn{font-size:14px;font-weight:600}
+.cat-row .cvals{font-size:12px;color:var(--ink-soft);font-weight:500;white-space:nowrap}
+.cat-row .cvals b{color:var(--ink);font-weight:600}
+.cat-row .cvals .ov{color:var(--danger)}
+
+/* ---- guests ---- */
+.g-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.g-summary .gs{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px 6px;text-align:center}
+.g-summary .gs .n{font-family:'Fraunces',serif;font-size:21px;font-weight:600;line-height:1}
+.g-summary .gs .l{font-size:10.5px;color:var(--ink-soft);margin-top:4px;font-weight:500}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;margin:0 -18px;padding-left:18px;padding-right:18px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 14px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.guest{display:flex;align-items:center;gap:13px;padding:13px 15px;border-bottom:1px solid var(--line)}
+.guest:last-child{border-bottom:none}
+.avatar{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--rose-deep);background:var(--rose-soft)}
+.guest .gbody{flex:1;min-width:0}
+.guest .gname{font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.guest .gmeta{font-size:11.5px;color:var(--ink-faint);margin-top:2px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.rsvp-dot{padding:2px 9px;border-radius:99px;font-size:10.5px;font-weight:600}
+.rsvp-hadir{background:var(--sage-soft);color:var(--sage)}
+.rsvp-tidak{background:var(--danger-soft);color:var(--danger)}
+.rsvp-mungkin{background:var(--gold-soft);color:var(--gold)}
+.rsvp-belum{background:var(--surface-2);color:var(--ink-faint)}
+.wa{width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;background:var(--sage-soft);color:var(--sage)}
+.wa:active{transform:scale(.92)}
+
+/* ---- profile ---- */
+.prof-card{padding:20px;margin-top:14px}
+.field{margin-bottom:15px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:6px}
+.field input,.field select,.field textarea{
+  width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--ink);outline:none;transition:border-color .15s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--rose)}
+.field .two{display:flex;gap:10px}
+.field .two>*{flex:1;min-width:0}
+.row2{display:flex;gap:12px}
+.row2>.field{flex:1;min-width:0}
+
+/* ---- buttons ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:14px;font-weight:600;font-size:14.5px;background:var(--rose);color:#fff;width:100%;transition:.12s}
+.btn:active{transform:scale(.98);filter:brightness(.96)}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line-strong)}
+.btn.soft{background:var(--rose-soft);color:var(--rose-deep)}
+.btn.danger{background:var(--danger-soft);color:var(--danger)}
+.btn.sm{width:auto;padding:9px 15px;font-size:13px;border-radius:11px}
+
+/* empty states */
+.empty{text-align:center;padding:44px 24px}
+.empty .em-ic{font-size:34px;margin-bottom:10px}
+.empty h3{font-size:19px;margin-bottom:7px}
+.empty p{color:var(--ink-soft);font-size:14px;max-width:300px;margin:0 auto 18px;line-height:1.5}
+
+/* FAB */
+.fab{position:absolute;right:18px;bottom:calc(84px + env(safe-area-inset-bottom,0px));width:54px;height:54px;border-radius:18px;background:var(--rose);color:#fff;display:grid;place-items:center;box-shadow:0 8px 22px -6px rgba(140,54,84,.55);z-index:20}
+.fab:active{transform:scale(.93)}
+
+/* bottom nav */
+.nav{position:absolute;left:0;right:0;bottom:0;display:flex;background:var(--surface);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));z-index:30}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 2px;color:var(--ink-faint);font-size:10.5px;font-weight:600}
+.nav button.on{color:var(--rose)}
+.nav button svg{width:23px;height:23px}
+.nav button.on svg{stroke-width:2.3}
+
+/* sheet / modal */
+.scrim{position:fixed;inset:0;background:rgba(30,15,25,.5);opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:var(--bg);border-radius:26px 26px 0 0;
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);z-index:60;max-height:92vh;display:flex;flex-direction:column;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+.sheet.show{transform:translateY(0)}
+.sheet .grab{width:38px;height:4px;border-radius:99px;background:var(--line-strong);margin:10px auto 4px}
+.sheet .sh-head{display:flex;align-items:center;justify-content:space-between;padding:8px 20px 4px}
+.sheet .sh-head h3{font-size:19px}
+.sheet .sh-body{padding:14px 20px 22px;overflow-y:auto}
+.sheet .sh-body .btn{margin-top:6px}
+.seg{display:flex;gap:7px;flex-wrap:wrap}
+.seg button{padding:9px 14px;border-radius:11px;border:1px solid var(--line-strong);font-size:13px;font-weight:600;color:var(--ink-soft);background:var(--surface)}
+.seg button.on{background:var(--rose);border-color:var(--rose);color:#fff}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:80;white-space:nowrap;box-shadow:0 8px 24px -6px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.storage-note{font-size:11px;color:var(--ink-faint);text-align:center;padding:18px 20px 4px;line-height:1.5}
+.banner{margin:14px 4px 0;padding:12px 15px;border-radius:14px;background:var(--gold-soft);color:var(--gold);font-size:12.5px;font-weight:500;line-height:1.5;border:1px solid var(--line)}
+.banner.err{background:var(--danger-soft);color:var(--danger)}
+.banner b{font-weight:700}
+.hidden{display:none!important}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div id="app">
+  <main id="screen"></main>
+  <button class="fab hidden" id="fab" data-action="fab" aria-label="Tambah">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+  <nav class="nav" id="nav"></nav>
+</div>
+<div class="scrim" id="scrim" data-action="close-sheet"></div>
+<div class="sheet" id="sheet">
+  <div class="grab"></div>
+  <div class="sh-head"><h3 id="sheetTitle"></h3><button class="iconbtn" data-action="close-sheet" aria-label="Tutup"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="sh-body" id="sheetBody"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* ================= KONFIGURASI SUPABASE =================
+   Isi 2 baris di bawah dengan data proyek Supabase-mu.
+   (Settings > API di dashboard Supabase). Anon key aman
+   dipasang di sini — dilindungi Row Level Security.        */
+const SUPABASE_URL      = "https://YOUR_PROJECT.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
+/* ======================================================== */
+
+/* ============ STATE ============ */
+const DEFAULTS = {
+  profile:{ bride:"", groom:"", akadDate:"", akadTime:"", resepsiDate:"", resepsiTime:"", venue:"", budget:0 },
+  checklist:[],
+  budget:{ categories:[], expenses:[] },
+  guests:[]
+};
+let state = JSON.parse(JSON.stringify(DEFAULTS));
+let tab = "home";
+let sb = null, roomId = null;
+let sheetSaveFn = null;
+
+/* filters */
+let gFilter = { group:"all", rsvp:"all" };
+
+/* ============ STORAGE (Supabase) ============ */
+const SB_CONFIGURED = !SUPABASE_URL.includes("YOUR_") && !SUPABASE_ANON_KEY.includes("YOUR_");
+let syncState = "local";   // local | connecting | online | error
+let saveTimer = null, applying = false;
+
+function lsGet(k){ try{ const v=localStorage.getItem("wp_"+k); return v==null?undefined:JSON.parse(v);}catch(e){return undefined;} }
+function lsSet(k,v){ try{ localStorage.setItem("wp_"+k, JSON.stringify(v)); }catch(e){} }
+function hydrateLocal(){ for(const k of Object.keys(DEFAULTS)){ const v=lsGet(k); if(v!==undefined) state[k]=v; } }
+function packState(){ return {profile:state.profile,checklist:state.checklist,budget:state.budget,guests:state.guests}; }
+function setSync(s){ syncState=s; }
+
+/* shared "room" id lives in the URL hash → this is the link you share */
+function getRoomId(){
+  const m=(location.hash||"").match(/room=([0-9a-fA-F-]{36})/);
+  if(m) return m[1];
+  const id=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():(uid()+uid()+uid()+uid());
+  try{ history.replaceState(null,"","#room="+id); }catch(e){ location.hash="room="+id; }
+  return id;
+}
+
+async function initSupabase(){
+  setSync(SB_CONFIGURED?"connecting":"local");
+  if(!SB_CONFIGURED || !window.supabase){ if(SB_CONFIGURED) setSync("error"); render._keep=true; render(); return; }
+  try{ sb=window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
+  catch(e){ setSync("error"); render._keep=true; render(); return; }
+  roomId=getRoomId();
+  try{
+    const {data,error}=await sb.from("weddings").select("data").eq("id",roomId).maybeSingle();
+    if(error) throw error;
+    if(data && data.data){ applyRemote(data.data); }
+    else { await sb.from("weddings").upsert({id:roomId,data:packState(),updated_at:new Date().toISOString()}); }
+    setSync("online");
+  }catch(e){ setSync("error"); }
+  try{
+    sb.channel("wp-"+roomId)
+      .on("postgres_changes",
+        {event:"*",schema:"public",table:"weddings",filter:"id=eq."+roomId},
+        p=>{ if(p.new && p.new.data) applyRemote(p.new.data); })
+      .subscribe();
+  }catch(e){}
+  render._keep=true; render();
+}
+
+/* incoming change from another device */
+function applyRemote(d){
+  if(!d) return;
+  if(JSON.stringify(d)===JSON.stringify(packState())) return; // our own echo / no change
+  applying=true;
+  for(const k of Object.keys(DEFAULTS)){ if(k in d){ state[k]=d[k]; lsSet(k,state[k]); } }
+  applying=false;
+  render._keep=true; render();
+}
+
+/* save() keeps the same call signature the UI already uses */
+function save(k){ lsSet(k, state[k]); scheduleSave(); }
+function scheduleSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(pushRemote,350); }
+async function pushRemote(){
+  if(!sb || applying || !SB_CONFIGURED) return;
+  try{ await sb.from("weddings").upsert({id:roomId,data:packState(),updated_at:new Date().toISOString()}); setSync("online"); }
+  catch(e){ setSync("error"); }
+  render._keep=true; render();
+}
+
+/* ============ HELPERS ============ */
+const uid = ()=> Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const rp = n => "Rp"+(Number(n)||0).toLocaleString("id-ID");
+const esc = s => (s==null?"":String(s)).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function parseNum(s){ return Number(String(s).replace(/[^0-9]/g,""))||0; }
+const MONTHS=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+const MONTHS_L=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const DAYS=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+function fmtDate(iso,long){ if(!iso) return "—"; const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return "—";
+  return long ? `${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS_L[d.getMonth()]} ${d.getFullYear()}`
+              : `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; }
+function todayISO(){ const d=new Date(); return d.toISOString().slice(0,10); }
+function daysBetween(iso){ if(!iso) return null; const t=new Date(todayISO()+"T00:00:00"); const d=new Date(iso+"T00:00:00");
+  return Math.round((d-t)/86400000); }
+
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1900); }
+
+function bannerHtml(){
+  if(!SB_CONFIGURED) return `<div class="banner"><b>Mode lokal.</b> Data baru tersimpan di perangkat ini. Untuk sinkron & berbagi tautan, isi kunci Supabase di bagian atas file (lihat panduan).</div>`;
+  if(syncState==="error") return `<div class="banner err">Sedang luring — perubahan tersimpan di perangkat ini dan akan disinkronkan saat sambungan pulih.</div>`;
+  return "";
+}
+function syncNote(){
+  if(!SB_CONFIGURED) return "Tersimpan di perangkat ini.";
+  if(syncState==="online") return "Tersinkron real-time · bagikan tautan agar pasangan ikut mengatur.";
+  if(syncState==="error") return "Luring — tersimpan di perangkat, menunggu sambungan.";
+  return "Menyambungkan…";
+}
+function copyText(text,msg){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>toast(msg||"Disalin")).catch(()=>fallbackCopy(text,msg));
+  } else fallbackCopy(text,msg);
+}
+function shareLink(){
+  if(!SB_CONFIGURED){ toast("Aktifkan Supabase dulu agar tautan bisa sinkron"); return; }
+  const url=location.href;
+  if(navigator.share){ navigator.share({title:"Rencana Nikah kami",text:"Yuk bantu atur pernikahan kami 🤍",url}).catch(()=>{}); }
+  else copyText(url,"Tautan disalin — kirim ke pasanganmu");
+}
+
+/* nearest upcoming event */
+function nextEvent(){
+  const p=state.profile; const evs=[];
+  if(p.akadDate) evs.push({label:"Akad",date:p.akadDate,days:daysBetween(p.akadDate)});
+  if(p.resepsiDate) evs.push({label:"Resepsi",date:p.resepsiDate,days:daysBetween(p.resepsiDate)});
+  if(!evs.length) return null;
+  const up=evs.filter(e=>e.days>=0).sort((a,b)=>a.days-b.days);
+  if(up.length) return up[0];
+  return evs.sort((a,b)=>b.days-a.days)[0]; // most recent past
+}
+
+/* checklist template */
+const CL_TEMPLATE=[
+  ["Venue & Acara","#B4506E",["Tentukan tanggal akad & resepsi","Survey & booking gedung/venue","Tentukan konsep & tema","Susun rundown acara"]],
+  ["Vendor","#A0466A",["Fotografer & videografer","MUA (perias) + trial makeup","Catering + tasting menu","Dekorasi","MC & hiburan/musik","Wedding organizer (opsional)"]],
+  ["Busana","#C97E7A",["Baju akad (jahit/sewa)","Baju resepsi (jahit/sewa)","Sepatu & aksesoris pengantin","Seragam keluarga"]],
+  ["Dokumen KUA","#8C3654",["Surat pengantar RT/RW (N1–N4)","Fotokopi KTP, KK & akta lahir","Pas foto pengantin (background biru)","Surat numpang nikah (jika beda wilayah)","Sertifikat bimbingan perkawinan","Cek kesehatan & imunisasi TT","Daftar & jadwalkan akad di KUA"]],
+  ["Seserahan","#B4863A",["Tentukan isi seserahan","Beli & siapkan hantaran","Wadah/kotak seserahan","Rias & tata seserahan"]],
+  ["Mahar","#B4863A",["Tentukan bentuk & nominal mahar","Siapkan mahar","Buat hiasan/frame mahar"]],
+  ["Undangan & Tamu","#5F8E6B",["Susun daftar tamu","Desain undangan (cetak/digital)","Sebar undangan","Rekap RSVP"]],
+  ["Lain-lain","#6C5C68",["Cincin kawin","Souvenir tamu","Transportasi & akomodasi","Bulan madu"]],
+];
+const BUD_TEMPLATE=["Venue / Gedung","Catering","Dekorasi","Dokumentasi","MUA & Busana","Undangan & Souvenir","Mahar & Seserahan","Hiburan & MC","Transportasi","Lain-lain"];
+
+/* ============ RENDER DISPATCH ============ */
+function render(){
+  const s=document.getElementById("screen");
+  s.scrollTop = render._keep ? s.scrollTop : 0;
+  let html="";
+  if(tab==="home") html=viewHome();
+  else if(tab==="checklist") html=viewChecklist();
+  else if(tab==="budget") html=viewBudget();
+  else if(tab==="guests") html=viewGuests();
+  else if(tab==="profile") html=viewProfile();
+  s.innerHTML=bannerHtml()+html;
+  render._keep=false;
+  renderNav();
+  const fab=document.getElementById("fab");
+  const showFab = ["checklist","budget","guests"].includes(tab) && !isEmptyTab();
+  fab.classList.toggle("hidden", !showFab);
+}
+function isEmptyTab(){
+  if(tab==="checklist") return state.checklist.length===0;
+  if(tab==="budget") return state.budget.categories.length===0;
+  if(tab==="guests") return state.guests.length===0;
+  return false;
+}
+
+/* ---- NAV ---- */
+const NAVITEMS=[
+  ["home","Beranda",'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>'],
+  ["checklist","Checklist",'<path d="m4 12 4 4 12-12"/><path d="M4 20h16"/>'],
+  ["budget","Anggaran",'<rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><circle cx="16.5" cy="14" r="1.4"/>'],
+  ["guests","Tamu",'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 6.2a3 3 0 0 1 0 5.6"/><path d="M17.5 20a5 5 0 0 0-2.3-4.2"/>'],
+  ["profile","Profil",'<path d="M12 12.5c2.6 0 4.5-2.1 4.5-4.75S14.6 3 12 3 7.5 5.1 7.5 7.75 9.4 12.5 12 12.5Z"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>'],
+];
+function renderNav(){
+  document.getElementById("nav").innerHTML = NAVITEMS.map(([id,label,path])=>
+    `<button data-action="nav" data-tab="${id}" class="${tab===id?'on':''}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>
+      <span>${label}</span></button>`).join("");
+}
+
+/* ============ VIEW: HOME ============ */
+function viewHome(){
+  const p=state.profile;
+  const hasNames = p.bride||p.groom;
+  const ev=nextEvent();
+  let hero;
+  if(!ev){
+    hero=`<div class="hero"><div class="names">${hasNames?coupleNames():"Pernikahan Kita"}</div>
+      <div class="count-wrap"><div class="big small">Yuk atur<br>tanggalnya</div></div>
+      <div class="toward">Isi tanggal akad & resepsi di halaman Profil untuk memulai hitung mundur.</div></div>`;
+  }else{
+    const d=ev.days;
+    let bigHtml, unit="hari lagi", toward=`menuju ${ev.label} · ${fmtDate(ev.date)}`;
+    if(d>0){ bigHtml=`<div class="big">${d}</div><div class="unit">${unit}</div>`; }
+    else if(d===0){ bigHtml=`<div class="big small">Hari ini! 🌸</div>`; toward=`${ev.label} · ${fmtDate(ev.date)}`; }
+    else { bigHtml=`<div class="big small">Sudah menikah 💍</div>`; toward=`Selamat menempuh hidup baru`; }
+    hero=`<div class="hero">
+      <svg class="deco" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="1.4">
+        <circle cx="255" cy="30" r="46"/><circle cx="270" cy="150" r="30"/><path d="M-10 170 Q60 120 130 165 T280 150"/></svg>
+      <div class="names">${hasNames?coupleNames():"Pernikahan Kita"}</div>
+      <div class="count-wrap">${bigHtml}</div>
+      <div class="toward">${toward}</div>
+      <div class="dates">
+        <div class="d"><span class="lbl">Akad</span><b>${p.akadDate?fmtDate(p.akadDate):"Belum diatur"}${p.akadTime?" · "+p.akadTime:""}</b></div>
+        <div class="d"><span class="lbl">Resepsi</span><b>${p.resepsiDate?fmtDate(p.resepsiDate):"Belum diatur"}${p.resepsiTime?" · "+p.resepsiTime:""}</b></div>
+      </div>
+    </div>`;
+  }
+
+  // stats
+  const cl=state.checklist; const clDone=cl.filter(t=>t.done).length;
+  const clPct = cl.length? Math.round(clDone/cl.length*100):0;
+  const totalBudget=p.budget||sumAllocated();
+  const spent=sumSpent();
+  const budPct= totalBudget? Math.min(100,Math.round(spent/totalBudget*100)):0;
+  const guests=state.guests; const guestHead=guests.reduce((a,g)=>a+(Number(g.count)||1),0);
+  const hadir=guests.filter(g=>g.rsvp==="hadir").reduce((a,g)=>a+(Number(g.count)||1),0);
+
+  const tiles=`<div class="tiles">
+    <button class="tile" data-action="nav" data-tab="checklist">
+      <span class="ring" style="--p:${clPct}"></span>
+      <div class="tn">${clDone}<span style="font-size:14px;color:var(--ink-faint)">/${cl.length||0}</span></div>
+      <div class="tl">Checklist</div><div class="tsub">${clPct}% beres</div></button>
+    <button class="tile" data-action="nav" data-tab="budget">
+      <div class="tn" style="font-size:19px">${totalBudget?shortRp(spent):"—"}</div>
+      <div class="tl">Terpakai</div><div class="tsub">${totalBudget?"dari "+shortRp(totalBudget):"atur budget"}</div></button>
+    <button class="tile" data-action="nav" data-tab="guests">
+      <div class="tn">${hadir}<span style="font-size:14px;color:var(--ink-faint)">/${guestHead||0}</span></div>
+      <div class="tl">Tamu hadir</div><div class="tsub">${guests.length} undangan</div></button>
+  </div>`;
+
+  // upcoming tasks (incomplete, sorted by due date)
+  const upcoming = cl.filter(t=>!t.done && t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,4);
+  const noDue = cl.filter(t=>!t.done && !t.due).slice(0,4);
+  const list = upcoming.length?upcoming:noDue;
+  let upSection="";
+  if(list.length){
+    upSection=`<div class="section-label">${upcoming.length?"Tenggat terdekat":"Belum beres"}</div>
+      <div class="card">${list.map(t=>{
+        const dd=t.due?daysBetween(t.due):null;
+        let meta = t.due ? (dd<0?`Telat ${-dd} hari`:dd===0?"Hari ini":`${dd} hari lagi · ${fmtDate(t.due)}`) : (t.category||"");
+        return `<div class="mini-task">
+          <span class="dot" style="background:${catColor(t.category)}"></span>
+          <div class="mt-body"><div class="mt-title">${esc(t.title)}</div><div class="mt-meta">${esc(t.category||"")}${t.due?" · "+meta:""}</div></div>
+        </div>`;}).join("")}</div>`;
+  }
+
+  const setup = (!p.akadDate && !p.resepsiDate) ? `<button class="btn soft" style="margin-top:18px" data-action="nav" data-tab="profile">Lengkapi profil pernikahan</button>`:"";
+
+  return `<div class="topbar"><div><div class="kicker">Assalamualaikum 🌸</div><h2>Rencana Nikah</h2></div>
+    <div style="display:flex;gap:8px">
+      <button class="iconbtn" data-action="share" aria-label="Bagikan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.3 10.7 7.4-4.4M8.3 13.3l7.4 4.4"/></svg></button>
+      <button class="iconbtn" data-action="toggle-theme" aria-label="Tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"/></svg></button>
+    </div></div>
+    ${hero}${tiles}${upSection}${setup}
+    <div class="storage-note">${syncNote()}</div>`;
+}
+function coupleNames(){ const p=state.profile;
+  const b=esc(p.bride||"Mempelai"), g=esc(p.groom||"Mempelai");
+  return `${b}<span class="amp">&</span>${g}`; }
+function shortRp(n){ n=Number(n)||0;
+  if(n>=1e9) return "Rp"+(n/1e9).toFixed(n%1e9?1:0).replace(".",",")+"M";
+  if(n>=1e6) return "Rp"+(n/1e6).toFixed(n%1e6?1:0).replace(".",",")+"jt";
+  if(n>=1e3) return "Rp"+Math.round(n/1e3)+"rb";
+  return "Rp"+n; }
+function catColor(cat){ const f=CL_TEMPLATE.find(c=>c[0]===cat); return f?f[1]:"var(--ink-faint)"; }
+
+/* ============ VIEW: CHECKLIST ============ */
+function viewChecklist(){
+  const cl=state.checklist;
+  if(!cl.length){
+    return topbar("Persiapan","Checklist")+`<div class="empty">
+      <div class="em-ic">📋</div><h3>Mulai dari template</h3>
+      <p>Muat daftar persiapan lengkap — venue, vendor, dokumen KUA, seserahan, mahar, dan lainnya. Semua bisa kamu ubah.</p>
+      <button class="btn" data-action="load-checklist" style="max-width:280px;margin:0 auto">Muat template persiapan</button>
+      <button class="btn ghost sm" data-action="add-task" style="margin:12px auto 0">Atau tambah tugas sendiri</button></div>`;
+  }
+  const done=cl.filter(t=>t.done).length; const pct=Math.round(done/cl.length*100);
+  // group by category, preserving template order then custom
+  const order=CL_TEMPLATE.map(c=>c[0]);
+  const groups={};
+  cl.forEach(t=>{ const c=t.category||"Lainnya"; (groups[c]=groups[c]||[]).push(t); });
+  const cats=Object.keys(groups).sort((a,b)=>{
+    const ia=order.indexOf(a), ib=order.indexOf(b);
+    return (ia<0?99:ia)-(ib<0?99:ib);
+  });
+  const groupsHtml=cats.map(cat=>{
+    const items=groups[cat]; const cd=items.filter(t=>t.done).length;
+    return `<div class="cat-group"><div class="cat-title"><span class="cc" style="background:${catColor(cat)}"></span>${esc(cat)}<span class="ccount">${cd}/${items.length}</span></div>
+      <div class="card">${items.map(taskRow).join("")}</div></div>`;
+  }).join("");
+  return topbar("Persiapan","Checklist")+`
+    <div class="card progress-head">
+      <div class="pnum">${pct}<span style="font-size:15px;color:var(--ink-faint)">%</span></div>
+      <div class="pcap"><div class="pt">${done} dari ${cl.length} tugas selesai</div><div class="pbar"><span style="width:${pct}%"></span></div></div>
+    </div>${groupsHtml}`;
+}
+function taskRow(t){
+  const dd=t.due?daysBetween(t.due):null;
+  let badge="";
+  if(t.due){
+    if(dd<0 && !t.done) badge=`<span class="badge late">Telat ${-dd}h</span>`;
+    else if(dd<=7 && dd>=0 && !t.done) badge=`<span class="badge due">${dd===0?"Hari ini":dd+" hari"}</span>`;
+    else badge=`<span class="badge">${fmtDate(t.due)}</span>`;
+  }
+  return `<div class="task ${t.done?'done':''}">
+    <button class="check ${t.done?'on':''}" data-action="toggle-task" data-id="${t.id}" aria-label="Selesai">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg></button>
+    <div class="tk-body" data-action="edit-task" data-id="${t.id}">
+      <div class="tk-title">${esc(t.title)}</div>
+      <div class="tk-meta">${badge}</div>
+    </div>
+    <button class="tk-x" data-action="del-task" data-id="${t.id}" aria-label="Hapus"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg></button>
+  </div>`;
+}
+
+/* ============ VIEW: BUDGET ============ */
+function sumAllocated(){ return state.budget.categories.reduce((a,c)=>a+(Number(c.allocated)||0),0); }
+function sumSpent(){ return state.budget.expenses.reduce((a,e)=>a+(Number(e.amount)||0),0); }
+function catSpent(id){ return state.budget.expenses.filter(e=>e.catId===id).reduce((a,e)=>a+(Number(e.amount)||0),0); }
+function viewBudget(){
+  const b=state.budget;
+  if(!b.categories.length){
+    return topbar("Keuangan","Anggaran")+`<div class="empty">
+      <div class="em-ic">💰</div><h3>Atur anggaran</h3>
+      <p>Buat alokasi per kategori lalu catat setiap pengeluaran. Sisa budget dihitung otomatis biar nggak boncos.</p>
+      <button class="btn" data-action="load-budget" style="max-width:280px;margin:0 auto">Muat kategori umum</button>
+      <button class="btn ghost sm" data-action="add-cat" style="margin:12px auto 0">Atau buat kategori sendiri</button></div>`;
+  }
+  const total=state.profile.budget||sumAllocated();
+  const allocated=sumAllocated();
+  const spent=sumSpent();
+  const remain=total-spent;
+  const pct= total?Math.min(100,Math.round(spent/total*100)):0;
+  const over=remain<0;
+  const rows=b.categories.map(c=>{
+    const cs=catSpent(c.id); const al=Number(c.allocated)||0;
+    const cp= al? Math.min(100,Math.round(cs/al*100)) : (cs>0?100:0);
+    const cover= al>0 && cs>al;
+    return `<div class="cat-row" data-action="cat-detail" data-id="${c.id}">
+      <div class="ch"><span class="cn">${esc(c.name)}</span>
+        <span class="cvals"><b>${rp(cs)}</b>${al?` / ${rp(al)}`:""} ${cover?`<span class="ov">(lebih ${rp(cs-al)})</span>`:""}</span></div>
+      <div class="pbar ${cover?'over':'gold'}"><span style="width:${cp}%"></span></div>
+    </div>`;
+  }).join("");
+  return topbar("Keuangan","Anggaran")+`
+    <div class="card bud-hero">
+      <div class="bl">Sisa anggaran</div>
+      <div class="bv ${over?'neg':''}">${rp(remain)}</div>
+      <div class="pbar ${over?'over':''}" style="margin-top:12px"><span style="width:${pct}%"></span></div>
+      <div class="brow">
+        <div class="bc"><div class="n">${shortRp(total)}</div><div class="l">Total budget</div></div>
+        <div class="bc spent"><div class="n">${shortRp(spent)}</div><div class="l">Terpakai</div></div>
+        <div class="bc"><div class="n">${shortRp(allocated)}</div><div class="l">Dialokasikan</div></div>
+      </div>
+    </div>
+    ${total===0?`<button class="btn soft" style="margin-top:14px" data-action="set-total">Tetapkan total budget</button>`:""}
+    <div class="section-label">Kategori · ketuk untuk catat pengeluaran</div>
+    <div class="card">${rows}</div>`;
+}
+
+/* ============ VIEW: GUESTS ============ */
+const RSVP_LABEL={belum:"Belum",hadir:"Hadir",tidak:"Tidak",mungkin:"Mungkin"};
+function viewGuests(){
+  const gs=state.guests;
+  if(!gs.length){
+    return topbar("Undangan","Tamu")+`<div class="empty">
+      <div class="em-ic">💌</div><h3>Daftar tamu</h3>
+      <p>Simpan tamu beserta grupnya, catat RSVP, dan kirim undangan digital lewat WhatsApp cukup satu ketukan.</p>
+      <button class="btn" data-action="add-guest" style="max-width:280px;margin:0 auto">Tambah tamu pertama</button></div>`;
+  }
+  const head=gs.reduce((a,g)=>a+(Number(g.count)||1),0);
+  const cnt=st=>gs.filter(g=>g.rsvp===st).reduce((a,g)=>a+(Number(g.count)||1),0);
+  const summary=`<div class="g-summary">
+    <div class="gs"><div class="n">${gs.length}</div><div class="l">Undangan</div></div>
+    <div class="gs"><div class="n" style="color:var(--sage)">${cnt("hadir")}</div><div class="l">Hadir</div></div>
+    <div class="gs"><div class="n" style="color:var(--gold)">${cnt("mungkin")}</div><div class="l">Mungkin</div></div>
+    <div class="gs"><div class="n" style="color:var(--ink-faint)">${cnt("belum")}</div><div class="l">Belum</div></div>
+  </div>`;
+  // group chips
+  const groups=[...new Set(gs.map(g=>g.group).filter(Boolean))];
+  const groupChips=`<div class="chips">
+    <button class="chip ${gFilter.group==='all'?'on':''}" data-action="fg" data-v="all">Semua (${gs.length})</button>
+    ${groups.map(gr=>`<button class="chip ${gFilter.group===gr?'on':''}" data-action="fg" data-v="${esc(gr)}">${esc(gr)}</button>`).join("")}
+  </div>`;
+  const rsvpChips=`<div class="chips" style="padding-top:2px">
+    ${["all","belum","hadir","mungkin","tidak"].map(r=>`<button class="chip ${gFilter.rsvp===r?'on':''}" data-action="fr" data-v="${r}">${r==="all"?"Semua RSVP":RSVP_LABEL[r]}</button>`).join("")}
+  </div>`;
+  let list=gs.filter(g=>(gFilter.group==="all"||g.group===gFilter.group)&&(gFilter.rsvp==="all"||g.rsvp===gFilter.rsvp));
+  list=list.slice().reverse();
+  const rows=list.length? list.map(guestRow).join("") : `<div class="empty" style="padding:30px"><p style="margin:0">Tidak ada tamu di filter ini.</p></div>`;
+  return topbar("Undangan","Tamu")+summary+groupChips+rsvpChips+`<div class="card" style="margin-top:6px">${rows}</div>`;
+}
+function guestRow(g){
+  const init=(g.name||"?").trim().charAt(0).toUpperCase();
+  const rc = g.rsvp==="hadir"?"rsvp-hadir":g.rsvp==="tidak"?"rsvp-tidak":g.rsvp==="mungkin"?"rsvp-mungkin":"rsvp-belum";
+  return `<div class="guest">
+    <div class="avatar">${esc(init)}</div>
+    <div class="gbody" data-action="edit-guest" data-id="${g.id}">
+      <div class="gname">${esc(g.name)}</div>
+      <div class="gmeta"><span class="rsvp-dot ${rc}">${RSVP_LABEL[g.rsvp]||"Belum"}</span>${g.group?"· "+esc(g.group):""}${(Number(g.count)||1)>1?" · "+g.count+" org":""}${g.invited?' · <span style="color:var(--sage)">terkirim</span>':""}</div>
+    </div>
+    ${g.phone?`<button class="wa" data-action="wa-guest" data-id="${g.id}" aria-label="Kirim WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.83-1.96-.93-.26-.1-.45-.15-.64.15-.19.29-.74.93-.9 1.12-.17.19-.33.21-.62.07-.29-.15-1.22-.45-2.33-1.43-.86-.77-1.44-1.72-1.6-2-.17-.3-.02-.45.13-.6.13-.13.29-.34.44-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.08-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.19 2.02 3.08 4.9 4.32.68.29 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34Z"/><path d="M12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3 .79.8-2.92-.2-.31A8.2 8.2 0 1 1 12 20.2Z"/></svg></button>`:""}
+  </div>`;
+}
+
+/* ============ VIEW: PROFILE ============ */
+function viewProfile(){
+  const p=state.profile;
+  return topbar("Profil","Pasangan")+`
+    <div class="card prof-card">
+      <div class="row2">
+        <div class="field"><label>Mempelai wanita</label><input id="pf_bride" value="${esc(p.bride)}" placeholder="Nama"></div>
+        <div class="field"><label>Mempelai pria</label><input id="pf_groom" value="${esc(p.groom)}" placeholder="Nama"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Tanggal akad</label><input id="pf_akadDate" type="date" value="${esc(p.akadDate)}"></div>
+        <div class="field" style="max-width:120px"><label>Jam</label><input id="pf_akadTime" type="time" value="${esc(p.akadTime)}"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Tanggal resepsi</label><input id="pf_resepsiDate" type="date" value="${esc(p.resepsiDate)}"></div>
+        <div class="field" style="max-width:120px"><label>Jam</label><input id="pf_resepsiTime" type="time" value="${esc(p.resepsiTime)}"></div>
+      </div>
+      <div class="field"><label>Lokasi / venue</label><input id="pf_venue" value="${esc(p.venue)}" placeholder="Gedung, kota"></div>
+      <div class="field"><label>Total anggaran (Rp)</label><input id="pf_budget" inputmode="numeric" value="${p.budget?Number(p.budget).toLocaleString('id-ID'):''}" placeholder="mis. 100.000.000"></div>
+      <button class="btn" data-action="save-profile">Simpan profil</button>
+    </div>
+    <div class="section-label">Berbagi & data</div>
+    <div class="card" style="padding:14px 16px">
+      <button class="btn soft" data-action="share">Bagikan tautan ke pasangan</button>
+      <div class="row2" style="margin-top:10px">
+        <button class="btn ghost" data-action="export-data">Salin cadangan</button>
+        <button class="btn danger" data-action="reset-data">Hapus semua</button>
+      </div>
+    </div>
+    <div class="storage-note">Dibuat untuk menemani perjalanan menuju hari bahagia kalian. 🤍</div>`;
+}
+
+/* small topbar */
+function topbar(kicker,title){
+  return `<div class="topbar"><div><div class="kicker">${kicker}</div><h2>${title}</h2></div></div>`;
+}
+
+/* ============ SHEET ============ */
+function openSheet(title, bodyHTML, saveFn){
+  document.getElementById("sheetTitle").textContent=title;
+  document.getElementById("sheetBody").innerHTML=bodyHTML;
+  sheetSaveFn=saveFn||null;
+  document.getElementById("scrim").classList.add("show");
+  document.getElementById("sheet").classList.add("show");
+  const first=document.querySelector("#sheetBody input,#sheetBody textarea");
+  if(first) setTimeout(()=>first.focus(),300);
+}
+function closeSheet(){
+  document.getElementById("scrim").classList.remove("show");
+  document.getElementById("sheet").classList.remove("show");
+  sheetSaveFn=null;
+}
+function val(id){ const e=document.getElementById(id); return e?e.value.trim():""; }
+
+/* ---- task sheet ---- */
+function taskSheet(t){
+  const editing=!!t; t=t||{title:"",category:"",due:""};
+  const cats=CL_TEMPLATE.map(c=>c[0]);
+  const body=`
+    <div class="field"><label>Nama tugas</label><input id="ts_title" value="${esc(t.title)}" placeholder="mis. Booking fotografer"></div>
+    <div class="field"><label>Kategori</label>
+      <select id="ts_cat">${["",...cats,"Lainnya"].map(c=>`<option ${((t.category||"")===c)?"selected":""} value="${esc(c)}">${c||"— Pilih kategori —"}</option>`).join("")}</select></div>
+    <div class="field"><label>Tenggat waktu (opsional)</label><input id="ts_due" type="date" value="${esc(t.due||"")}"></div>
+    <button class="btn" data-action="sheet-save">${editing?"Simpan perubahan":"Tambah tugas"}</button>
+    ${editing?`<button class="btn danger" style="margin-top:10px" data-action="del-task-sheet" data-id="${t.id}">Hapus tugas</button>`:""}`;
+  openSheet(editing?"Edit tugas":"Tugas baru", body, ()=>{
+    const title=val("ts_title"); if(!title){ toast("Nama tugas belum diisi"); return false; }
+    const data={ title, category:val("ts_cat"), due:val("ts_due") };
+    if(editing){ Object.assign(state.checklist.find(x=>x.id===t.id),data); }
+    else { state.checklist.push({id:uid(),done:false,...data}); }
+    save("checklist"); toast(editing?"Tersimpan":"Tugas ditambahkan"); return true;
+  });
+}
+
+/* ---- category sheet ---- */
+function catSheet(c){
+  const editing=!!c; c=c||{name:"",allocated:0};
+  const body=`
+    <div class="field"><label>Nama kategori</label><input id="cs_name" value="${esc(c.name)}" placeholder="mis. Dekorasi"></div>
+    <div class="field"><label>Alokasi anggaran (Rp)</label><input id="cs_alloc" inputmode="numeric" value="${c.allocated?Number(c.allocated).toLocaleString('id-ID'):''}" placeholder="mis. 15.000.000"></div>
+    <button class="btn" data-action="sheet-save">${editing?"Simpan":"Tambah kategori"}</button>
+    ${editing?`<button class="btn danger" style="margin-top:10px" data-action="del-cat-sheet" data-id="${c.id}">Hapus kategori</button>`:""}`;
+  openSheet(editing?"Edit kategori":"Kategori baru", body, ()=>{
+    const name=val("cs_name"); if(!name){ toast("Nama kategori belum diisi"); return false; }
+    const allocated=parseNum(val("cs_alloc"));
+    if(editing){ const x=state.budget.categories.find(k=>k.id===c.id); x.name=name; x.allocated=allocated; }
+    else { state.budget.categories.push({id:uid(),name,allocated}); }
+    save("budget"); toast(editing?"Tersimpan":"Kategori ditambahkan"); return true;
+  });
+}
+
+/* ---- category detail (expenses) ---- */
+function catDetailSheet(id){
+  const c=state.budget.categories.find(k=>k.id===id); if(!c) return;
+  const exps=state.budget.expenses.filter(e=>e.catId===id).slice().reverse();
+  const cs=catSpent(id); const al=Number(c.allocated)||0;
+  const body=`
+    <div style="background:var(--surface-2);border-radius:14px;padding:14px 16px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span style="font-weight:600">Terpakai</span>
+        <span style="font-family:'Fraunces',serif;font-size:20px;font-weight:600${cs>al&&al?';color:var(--danger)':''}">${rp(cs)}</span></div>
+      ${al?`<div style="font-size:12px;color:var(--ink-soft);margin-top:2px">dari alokasi ${rp(al)} · sisa ${rp(al-cs)}</div>`:""}
+    </div>
+    <button class="btn" data-action="add-expense" data-id="${id}">+ Catat pengeluaran</button>
+    <div style="margin-top:8px">
+      <button class="btn ghost sm" data-action="edit-cat" data-id="${id}" style="width:auto;margin-top:12px">Edit kategori</button>
+    </div>
+    <div class="section-label" style="margin-left:0">Riwayat pengeluaran</div>
+    ${exps.length? `<div class="card">${exps.map(e=>`
+      <div class="mini-task"><div class="mt-body"><div class="mt-title">${esc(e.title||"Pengeluaran")}</div><div class="mt-meta">${e.date?fmtDate(e.date):""}</div></div>
+        <span style="font-weight:600;font-size:14px">${rp(e.amount)}</span>
+        <button class="tk-x" data-action="del-expense" data-id="${e.id}" data-cat="${id}" style="margin-left:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg></button></div>`).join("")}</div>`
+      : `<p style="color:var(--ink-faint);font-size:13px;text-align:center;padding:16px">Belum ada pengeluaran dicatat.</p>`}`;
+  openSheet(c.name, body, null);
+}
+
+/* ---- expense sheet ---- */
+function expenseSheet(catId){
+  const body=`
+    <div class="field"><label>Keterangan</label><input id="es_title" placeholder="mis. DP fotografer"></div>
+    <div class="field"><label>Jumlah (Rp)</label><input id="es_amt" inputmode="numeric" placeholder="mis. 2.500.000"></div>
+    <div class="field"><label>Tanggal</label><input id="es_date" type="date" value="${todayISO()}"></div>
+    <button class="btn" data-action="sheet-save">Simpan pengeluaran</button>`;
+  openSheet("Catat pengeluaran", body, ()=>{
+    const amt=parseNum(val("es_amt")); if(!amt){ toast("Jumlah belum diisi"); return false; }
+    state.budget.expenses.push({id:uid(),catId,title:val("es_title"),amount:amt,date:val("es_date")});
+    save("budget"); toast("Pengeluaran dicatat");
+    render._keep=true; render();
+    // reopen category detail to show updated list
+    setTimeout(()=>catDetailSheet(catId),50);
+    return "noclose";
+  });
+}
+
+/* ---- guest sheet ---- */
+function guestSheet(g){
+  const editing=!!g; g=g||{name:"",group:"",phone:"",count:1,rsvp:"belum"};
+  const groups=["Keluarga","Kerabat","Teman","Kolega","Tetangga"];
+  const body=`
+    <div class="field"><label>Nama tamu</label><input id="gs_name" value="${esc(g.name)}" placeholder="Nama / keluarga"></div>
+    <div class="field"><label>No. WhatsApp (opsional)</label><input id="gs_phone" inputmode="tel" value="${esc(g.phone)}" placeholder="08xxxxxxxxxx"></div>
+    <div class="row2">
+      <div class="field"><label>Grup</label>
+        <select id="gs_group">${["",...groups].map(x=>`<option ${((g.group||"")===x)?"selected":""} value="${esc(x)}">${x||"—"}</option>`).join("")}${g.group&&!groups.includes(g.group)?`<option selected value="${esc(g.group)}">${esc(g.group)}</option>`:""}</select></div>
+      <div class="field" style="max-width:110px"><label>Jml orang</label><input id="gs_count" type="number" min="1" value="${Number(g.count)||1}"></div>
+    </div>
+    <div class="field"><label>Status kehadiran (RSVP)</label>
+      <div class="seg" id="gs_rsvp" data-v="${g.rsvp||'belum'}">
+        ${Object.entries(RSVP_LABEL).map(([k,v])=>`<button type="button" class="${(g.rsvp||'belum')===k?'on':''}" data-r="${k}">${v}</button>`).join("")}
+      </div></div>
+    <button class="btn" data-action="sheet-save">${editing?"Simpan":"Tambah tamu"}</button>
+    ${editing?`<button class="btn danger" style="margin-top:10px" data-action="del-guest-sheet" data-id="${g.id}">Hapus tamu</button>`:""}`;
+  openSheet(editing?"Edit tamu":"Tamu baru", body, ()=>{
+    const name=val("gs_name"); if(!name){ toast("Nama tamu belum diisi"); return false; }
+    const rsvp=document.getElementById("gs_rsvp").dataset.v||"belum";
+    const data={ name, phone:val("gs_phone"), group:val("gs_group"), count:Math.max(1,parseInt(val("gs_count"))||1), rsvp };
+    if(editing){ Object.assign(state.guests.find(x=>x.id===g.id),data); }
+    else { state.guests.push({id:uid(),invited:false,...data}); }
+    save("guests"); toast(editing?"Tersimpan":"Tamu ditambahkan"); return true;
+  });
+}
+
+/* ---- WhatsApp ---- */
+function waPhone(raw){ let d=String(raw).replace(/[^0-9]/g,"");
+  if(!d) return ""; if(d.startsWith("62")) return d;
+  if(d.startsWith("0")) return "62"+d.slice(1);
+  if(d.startsWith("8")) return "62"+d; return d; }
+function waMessage(g){
+  const p=state.profile;
+  const names=`${p.bride||"Kami"} & ${p.groom||""}`.replace(/ & $/,"");
+  let m=`Assalamualaikum Wr. Wb. 🌸\n\nDengan memohon rahmat & ridho Allah SWT, kami mengundang ${g.name||"Bapak/Ibu/Saudara/i"} untuk hadir di acara pernikahan kami:\n\n💑 ${names}\n`;
+  if(p.akadDate) m+=`\n🗓️ Akad: ${fmtDate(p.akadDate,true)}${p.akadTime?" pukul "+p.akadTime:""}`;
+  if(p.resepsiDate) m+=`\n🎉 Resepsi: ${fmtDate(p.resepsiDate,true)}${p.resepsiTime?" pukul "+p.resepsiTime:""}`;
+  if(p.venue) m+=`\n📍 ${p.venue}`;
+  m+=`\n\nMerupakan suatu kehormatan & kebahagiaan bagi kami apabila berkenan hadir memberikan doa restu. 🙏\n\nWassalamualaikum Wr. Wb.`;
+  return m;
+}
+function sendWA(id){
+  const g=state.guests.find(x=>x.id===id); if(!g) return;
+  const ph=waPhone(g.phone);
+  const url=`https://wa.me/${ph}?text=${encodeURIComponent(waMessage(g))}`;
+  window.open(url,"_blank");
+  if(!g.invited){ g.invited=true; save("guests"); render._keep=true; render(); }
+  toast("Membuka WhatsApp…");
+}
+
+/* ============ EVENT DELEGATION ============ */
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-action]"); if(!el) return;
+  const a=el.dataset.action, id=el.dataset.id;
+  switch(a){
+    case "nav": tab=el.dataset.tab; render(); break;
+    case "toggle-theme": toggleTheme(); break;
+    case "share": shareLink(); break;
+    case "fab":
+      if(tab==="checklist") taskSheet();
+      else if(tab==="budget") catSheet();
+      else if(tab==="guests") guestSheet();
+      break;
+
+    /* checklist */
+    case "load-checklist": loadChecklistTemplate(); break;
+    case "add-task": taskSheet(); break;
+    case "toggle-task":{ const t=state.checklist.find(x=>x.id===id); if(t){ t.done=!t.done; save("checklist"); render._keep=true; render(); } break; }
+    case "edit-task":{ const t=state.checklist.find(x=>x.id===id); if(t) taskSheet(t); break; }
+    case "del-task": if(confirm("Hapus tugas ini?")){ state.checklist=state.checklist.filter(x=>x.id!==id); save("checklist"); render._keep=true; render(); } break;
+    case "del-task-sheet": state.checklist=state.checklist.filter(x=>x.id!==id); save("checklist"); closeSheet(); render._keep=true; render(); toast("Tugas dihapus"); break;
+
+    /* budget */
+    case "load-budget": loadBudgetTemplate(); break;
+    case "add-cat": catSheet(); break;
+    case "edit-cat":{ const c=state.budget.categories.find(x=>x.id===id); if(c){ closeSheet(); setTimeout(()=>catSheet(c),260);} break; }
+    case "del-cat-sheet":
+      state.budget.categories=state.budget.categories.filter(x=>x.id!==id);
+      state.budget.expenses=state.budget.expenses.filter(x=>x.catId!==id);
+      save("budget"); closeSheet(); render._keep=true; render(); toast("Kategori dihapus"); break;
+    case "cat-detail": catDetailSheet(id); break;
+    case "add-expense": closeSheet(); setTimeout(()=>expenseSheet(id),260); break;
+    case "del-expense":{ state.budget.expenses=state.budget.expenses.filter(x=>x.id!==id); save("budget"); render._keep=true; render();
+      const cat=el.dataset.cat; closeSheet(); setTimeout(()=>catDetailSheet(cat),260); break; }
+    case "set-total": tab="profile"; render(); setTimeout(()=>{const b=document.getElementById("pf_budget"); if(b)b.focus();},100); break;
+
+    /* guests */
+    case "add-guest": guestSheet(); break;
+    case "edit-guest":{ const g=state.guests.find(x=>x.id===id); if(g) guestSheet(g); break; }
+    case "del-guest-sheet": state.guests=state.guests.filter(x=>x.id!==id); save("guests"); closeSheet(); render._keep=true; render(); toast("Tamu dihapus"); break;
+    case "wa-guest": sendWA(id); break;
+    case "fg": gFilter.group=el.dataset.v; render._keep=true; render(); break;
+    case "fr": gFilter.rsvp=el.dataset.v; render._keep=true; render(); break;
+
+    /* profile */
+    case "save-profile": saveProfile(); break;
+    case "export-data": exportData(); break;
+    case "reset-data": resetData(); break;
+
+    /* sheet */
+    case "close-sheet": closeSheet(); break;
+    case "sheet-save": if(sheetSaveFn){ const r=sheetSaveFn(); if(r===true){ closeSheet(); render._keep=true; render(); } else if(r==="noclose"){ /* stay */ } } break;
+  }
+});
+/* RSVP segmented control inside sheet */
+document.getElementById("sheetBody").addEventListener("click",e=>{
+  const b=e.target.closest("#gs_rsvp button"); if(!b) return;
+  const seg=document.getElementById("gs_rsvp");
+  seg.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); seg.dataset.v=b.dataset.r;
+});
+
+/* ============ ACTIONS ============ */
+function loadChecklistTemplate(){
+  const items=[];
+  CL_TEMPLATE.forEach(([cat,,tasks])=>tasks.forEach(t=>items.push({id:uid(),title:t,category:cat,due:"",done:false})));
+  state.checklist=items; save("checklist"); render(); toast(`${items.length} tugas dimuat`);
+}
+function loadBudgetTemplate(){
+  state.budget.categories=BUD_TEMPLATE.map(n=>({id:uid(),name:n,allocated:0}));
+  save("budget"); render(); toast("Kategori dimuat");
+}
+function saveProfile(){
+  const p=state.profile;
+  p.bride=val("pf_bride"); p.groom=val("pf_groom");
+  p.akadDate=val("pf_akadDate"); p.akadTime=val("pf_akadTime");
+  p.resepsiDate=val("pf_resepsiDate"); p.resepsiTime=val("pf_resepsiTime");
+  p.venue=val("pf_venue"); p.budget=parseNum(val("pf_budget"));
+  save("profile"); toast("Profil tersimpan"); tab="home"; render();
+}
+function exportData(){
+  const blob=JSON.stringify({v:1,exportedAt:new Date().toISOString(),...state},null,2);
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(blob).then(()=>toast("Data disalin ke clipboard")).catch(()=>fallbackCopy(blob));
+  } else fallbackCopy(blob);
+}
+function fallbackCopy(text,msg){
+  const ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); toast(msg||"Disalin"); }catch(e){ toast("Gagal menyalin"); }
+  document.body.removeChild(ta);
+}
+function resetData(){
+  if(!confirm("Hapus SEMUA data pernikahan? Tindakan ini tidak bisa dibatalkan.")) return;
+  if(!confirm("Yakin? Semua checklist, anggaran, tamu, dan profil akan hilang.")) return;
+  state=JSON.parse(JSON.stringify(DEFAULTS));
+  ["profile","checklist","budget","guests"].forEach(k=>lsSet(k,state[k]));
+  pushRemote();
+  tab="home"; render(); toast("Semua data dihapus");
+}
+
+/* ============ THEME ============ */
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute("data-theme");
+  const isDark = cur ? cur==="dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const next=isDark?"light":"dark";
+  document.documentElement.setAttribute("data-theme",next);
+  try{ localStorage.setItem("wp_theme",next); }catch(e){}
+}
+(function initTheme(){ try{ const t=localStorage.getItem("wp_theme"); if(t) document.documentElement.setAttribute("data-theme",t);}catch(e){} })();
+
+/* ============ BOOT ============ */
+hydrateLocal();
+render();
+initSupabase();
+</script>
+</body>
+</html>
